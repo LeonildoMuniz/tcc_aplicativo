@@ -2,6 +2,7 @@
 import React, {useState, createContext, ReactNode, useEffect} from 'react';
 import {api} from '../services/api'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 type AuthContextData = {
     user:UserProps;
@@ -17,6 +18,7 @@ type UserProps = {
     nome: string;
     token: string;
 }
+
 
 type AuthProviderProps ={
     children: ReactNode;
@@ -69,11 +71,13 @@ export function AuthProvider({children}:AuthProviderProps){
         getUSER();
     },[])
 
+
     async function Logar({matricula, senha}: LogarProps) {
         setLoadingAuth(true);
 
         try{
 
+            
             const response = await api.post('/session2',{
                 matricula,
                 senha,
@@ -85,6 +89,7 @@ export function AuthProvider({children}:AuthProviderProps){
            }
            
             await AsyncStorage.setItem('@token',JSON.stringify(data))
+
 
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
@@ -113,6 +118,8 @@ export function AuthProvider({children}:AuthProviderProps){
             })
         })
     }
+
+
 
     return(
         <AuthContext.Provider value={{user, estaAutenticado, Logar, loading, loadingAuth, signOut}}>

@@ -8,8 +8,8 @@ import Chat from '../chat';
 import Aniversariante from '../aniversariantes';
 import NovosColaboradores from '../novosColaboradores';
 import Canais from '../canaisComunicacao'
-import { View } from 'react-native-animatable';
-import Logout from '../../components/logout'
+
+
 
 
 const Stack = createNativeStackNavigator();
@@ -41,7 +41,6 @@ export default function Principal(){
             <Tab.Screen
                 name = "Comunicados"
                 component={Comunidados}
-                
                 options={{
 
                     tabBarIcon:({color, size, focused})=>{
@@ -50,7 +49,8 @@ export default function Principal(){
                         }
 
                         return <Ionicons name='information-circle-outline' size={size} color={color}/>
-                    }
+                    },
+                    headerShown:false,
                 }}
                 
             />             
@@ -65,7 +65,8 @@ export default function Principal(){
                         }
 
                         return <FontAwesome name="commenting-o" size={size} color={color} />
-                    }
+                    },
+                    headerShown:false,
                 }}
             />   
 
@@ -79,7 +80,8 @@ export default function Principal(){
                         }
 
                         return <MaterialCommunityIcons name="cake-variant-outline" size={size} color={color}/>
-                    }
+                    },
+                    headerShown:false,
                 }}
             />   
 
@@ -93,7 +95,8 @@ export default function Principal(){
                         }
 
                         return <MaterialCommunityIcons name="hand-wave-outline" size={size} color={color} />
-                    }
+                    },
+                    headerShown:false,
                 }}
             />   
 
@@ -107,7 +110,8 @@ export default function Principal(){
                         }
 
                         return <Ionicons name="send-outline" size={size} color={color}/>
-                    }
+                    },
+                    headerShown:false,
                 }}
             />   
 

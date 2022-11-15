@@ -1,13 +1,12 @@
 
-import { View, Text } from "react-native-animatable";
-import Logout from "../../components/logout";
+import { View } from "react-native-animatable";
+import Header from "../../components/header";
 
 
 export default function Canais(){
     return(
         <View>
-            <Logout/>
-            <Text>Pagina canais de comunicação</Text>
+            <Header/>
         </View>
     );
 }
