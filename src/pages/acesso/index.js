@@ -1,33 +1,41 @@
 import React, {useContext, useState} from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
 import *as Animatable from 'react-native-animatable'
 import { useNavigation } from '@react-navigation/native'
-
 import {AuthContext} from '../../contexts/AuthContext.tsx'
 
 
 
-export default function Login(){
 
-    const {Logar,loadingAuth} = useContext(AuthContext)
+export default function Acesso(){
+
+    const {primeiroAcesso,loadingAuth} = useContext(AuthContext)
 
     const [matricula, setMatricula] = useState('');
     const [senha, setSenha] = useState('');
+    const [admissao, setAdmissao] = useState('');
+    const [cpf, setCpf] = useState('');
 
     async function handleLogin(){
-        if(matricula==='' || senha===''){
+        if(matricula==='' || senha===''
+        ){
             alert('Preencha todos os campos para processeguir!');
             return;
         }
 
-        await Logar({matricula,senha})
+        await primeiroAcesso({matricula,admissao,cpf,senha})
+        setMatricula('');
+        setSenha('');
+        setAdmissao('');
+        setCpf('');
+        navigation.navigate('Login');
     }
 
     const navigation = useNavigation();
     return(
         <View style={styles.container}>
             <Animatable.View animation="fadeInLeft" delay={500} style={styles.containerHeader}>
-                <Text style={styles.message}>Bem-Vindo(a)!</Text>
+                <Text style={styles.message}>Preencha os campos abaixo</Text>
             </Animatable.View>
 
             <Animatable.View animation="fadeInUp" style={styles.containerForm}>
@@ -37,6 +45,22 @@ export default function Login(){
                     style={styles.input}
                     value={matricula}
                     onChangeText={setMatricula}
+                />
+                <Text style={styles.inputText}>Admissao</Text>
+                <TextInput
+                    placeholder="Digite sua data de admissão"
+                    keyboardType="numbers-and-punctuation"
+                    style={styles.input}
+                    value={admissao}
+                    onChangeText={setAdmissao}
+                />
+                <Text style={styles.inputText}>CPF</Text>
+                <TextInput
+                    placeholder="Digita seu CPF"
+                    secureTextEntry={true}
+                    style={styles.input}
+                    value={cpf}
+                    onChangeText={setCpf}
                 />
                 <Text style={styles.inputText}>Senha</Text>
                 <TextInput
@@ -57,12 +81,6 @@ export default function Login(){
                         <Text style={styles.buttonText}>Acessar</Text>
                     )}
                     
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.buttonPr}
-                    onPress={ () => navigation.navigate('Acesso')}
-                >
-                    <Text style={styles.buttonTextPr}>Primeiro Acesso</Text>
                 </TouchableOpacity>
 
             </Animatable.View>
@@ -95,13 +113,13 @@ const styles = StyleSheet.create({
         paddingEnd: '5%',
     },
     inputText:{
-        fontSize: 20,
-        marginTop:28,
+        fontSize: 16,
+        marginTop:10,
     },
     input:{
         borderBottomWidth:1,
-        marginBottom:12,
-        height: 40,
+        marginBottom:8,
+        height: 25,
         fontSize:16,
 
     },

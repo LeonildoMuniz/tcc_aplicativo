@@ -25,8 +25,7 @@ export default function BemVindo(){
                 />
             </View>
             <Animatable.View delay={600} animation="fadeInUp" style={styles.containerForm}>
-                <Text style={styles.title}>Seu sistema de comunicação interna</Text>
-                <Text style={styles.text}>Faça seu login!</Text>
+                <Text style={styles.title}>Gerenciador de Comunicados</Text>
                 <TouchableOpacity 
                     style={styles.button}
                     onPress={ () => navigation.navigate('Login')}
@@ -61,8 +60,10 @@ const styles = StyleSheet.create({
     title:{
         fontSize: 24,
         fontWeight: "bold",
-        marginTop:28,
+        marginTop:80,
         marginBottom: 12,
+        textAlign: 'center',
+        color: 'gray',
     },
     text:{
         color:'#a1a1a1'
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
         position:"absolute",
         borderRadius: 50,
         backgroundColor: '#0caeae',
-        paddingVertical:8,
+        paddingVertical:15,
         width: '60%',
         alignSelf: "center",
         bottom: '15%',

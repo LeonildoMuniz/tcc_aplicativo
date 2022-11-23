@@ -1,8 +1,8 @@
 import Header from "../../components/header";
 import Conversa from "../../components/chat";
-import {Button, DevSettings, ScrollView} from 'react-native'
+import {ScrollView, Text, StyleSheet} from 'react-native'
 import React from "react";
-import Restart from 'react-native-restart'
+
 
 
 
@@ -15,9 +15,22 @@ export default function Chat(){
 
         <ScrollView style={{flex:1, marginBottom: 100}}>
             <Header/>
+            <Text style={styles.titulo}>
+                Comunicados do Gestor
+            </Text>
             <Conversa/>
         </ScrollView>
 
   
     )
 }
+
+const styles = StyleSheet.create({
+    titulo:{
+        textAlign: 'center',
+        color: '#0caeae',
+        fontWeight: 'bold',
+        fontSize: 16,
+        paddingBottom: 15,
+    }
+})

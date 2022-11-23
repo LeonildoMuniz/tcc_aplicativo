@@ -1,8 +1,9 @@
-import  React, { useEffect, useState } from 'react'
+import  React, { useContext, useEffect, useState } from 'react'
 import { StyleSheet, View, Image, Dimensions} from 'react-native'
 import Autor from '../autorComunicado'
 import {api} from '../../services/api'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { AuthContext } from '../../contexts/AuthContext'
 
 
 type UserProps = {
@@ -48,12 +49,16 @@ export default function ListaMensagens({atualizar}: atualizarProps) {
     
      
     async function atualizarComunicado() {
+        const {verifica} = useContext(AuthContext)
         api.get('/mensagem3').then(response=>{
             setMensagens(response.data)
         }).catch(error=>{
                     console.error(error)
         })
+
+        verifica()
     }
+
 
     atualizarComunicado()
 
@@ -61,11 +66,21 @@ export default function ListaMensagens({atualizar}: atualizarProps) {
     return(
         <>   
             {mensagens.map((item, index)=>{
+
+            function dataAtualFormatada(){
+                var data = new Date(item.data_envio),
+                    dia  = data.getDate().toString(),
+                    diaF = (dia.length == 1) ? '0'+dia : dia,
+                    mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+                    mesF = (mes.length == 1) ? '0'+mes : mes,
+                    anoF = data.getFullYear();
+                return diaF+"/"+mesF+"/"+anoF;
+            }
                return(
                 <View style={styles.container} key={index}>
                     
-                    <Autor nickname={item.colaborador.nome} mensagem={item.mensagem} data={item.data_envio}/>
-                    <Image source={{uri:'http://192.168.1.11:3333/files/'+item.anexo}}  style={styles.image}/>
+                    <Autor nickname={item.colaborador.nome} mensagem={item.mensagem} data={dataAtualFormatada()}/>
+                    <Image source={{uri:'http://192.168.111.206/files/'+item.anexo}}  style={styles.image}/>
                 </View>
                )
             })}

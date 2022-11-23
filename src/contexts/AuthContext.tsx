@@ -2,7 +2,7 @@
 import React, {useState, createContext, ReactNode, useEffect} from 'react';
 import {api} from '../services/api'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+
 
 type AuthContextData = {
     user:UserProps;
@@ -11,6 +11,8 @@ type AuthContextData = {
     loadingAuth: boolean;
     loading: boolean;
     signOut: () => Promise<void>;
+    primeiroAcesso: (credenciais: AcessoProps)=> Promise<void>;
+    verifica: () => Promise<void>;
 }
 
 type UserProps = {
@@ -29,13 +31,21 @@ type LogarProps={
     senha: string,
 }
 
+type AcessoProps={
+    matricula: string,
+    admissao: string,
+    cpf: string,
+    senha: string,
+}
 
 
 export const AuthContext = createContext({} as AuthContextData);
 
-export function AuthProvider({children}:AuthProviderProps){
+export function AuthProvider({children}:AuthProviderProps){   
 
-    
+    const [ativo, setAtivo] = useState({
+        status:'',
+    })
 
     const [user, setUser] = useState({
         id:'',
@@ -51,6 +61,8 @@ export function AuthProvider({children}:AuthProviderProps){
         async function getUSER() {
             const userInfo = await AsyncStorage.getItem('@token')
             let hasUser: UserProps = JSON.parse(userInfo || '{}');
+            
+            
 
             if(Object.keys(hasUser).length > 0){
                 api.defaults.headers.common['Authorization'] = `Bearer ${hasUser.token}`
@@ -61,10 +73,13 @@ export function AuthProvider({children}:AuthProviderProps){
                     token: hasUser.token,
                 })
             }
+    
 
             setLoading(false);
 
         }
+    
+
 
         
 
@@ -103,9 +118,53 @@ export function AuthProvider({children}:AuthProviderProps){
 
         }catch(err){
             console.log('Erro ao acessar: ', err)
+            alert("Senha/Login incorreto ou usuario sem primeiro acesso cadastrado!")
             setLoadingAuth(false);
         }
 
+    }
+
+        
+
+        async function verifica() {
+
+            try {
+                const valor = await api.get('/status',{params:{id:user.id}})     
+                const {status} = valor.data
+
+                if (status) {
+                    return;
+                }else{
+                    signOut()
+                }
+            } catch (error) {
+                
+            }
+
+
+        }
+
+         
+     
+    async function primeiroAcesso({matricula,cpf,admissao,senha}:AcessoProps) {
+        setLoadingAuth(true);
+
+        try{
+            const response = await api.put('/primeiroacesso',{
+                matricula,
+                cpf,
+                admissao,
+                senha,
+            })
+
+            alert('Cadastro efetuado com sucesso!')
+            
+        }catch(err){
+            alert('Erro ao efetuar o cadastro');
+            console.log("Erro ao efetuar o cadastro",err);
+        }
+
+        setLoadingAuth(false);
     }
 
     async function signOut() {
@@ -120,9 +179,9 @@ export function AuthProvider({children}:AuthProviderProps){
     }
 
 
-
     return(
-        <AuthContext.Provider value={{user, estaAutenticado, Logar, loading, loadingAuth, signOut}}>
+    
+        <AuthContext.Provider value={{user, estaAutenticado, Logar, loading, loadingAuth, signOut, primeiroAcesso,verifica}}>
             {children}
         </AuthContext.Provider>
     )

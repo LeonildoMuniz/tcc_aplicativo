@@ -7,7 +7,7 @@ import Comunidados from '../comunicados';
 import Chat from '../chat';
 import Aniversariante from '../aniversariantes';
 import NovosColaboradores from '../novosColaboradores';
-import Canais from '../canaisComunicacao'
+
 
 
 
@@ -99,21 +99,7 @@ export default function Principal(){
                     headerShown:false,
                 }}
             />   
-
-            <Tab.Screen
-                name = "Canais"
-                component={Canais}
-                options={{
-                    tabBarIcon:({color, size, focused})=>{
-                        if(focused){
-                            return <Ionicons name="send" size={size} color={color} />
-                        }
-
-                        return <Ionicons name="send-outline" size={size} color={color}/>
-                    },
-                    headerShown:false,
-                }}
-            />   
+  
 
         </Tab.Navigator>
     );
