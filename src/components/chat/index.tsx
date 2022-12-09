@@ -56,6 +56,7 @@ export default function Chat(){
         verifica()
     }
     
+    getChat()
     
     return(
         <>

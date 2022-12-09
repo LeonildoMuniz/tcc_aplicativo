@@ -6,7 +6,7 @@ export default props =>{
     return(
 
         <View style={styles.container}>
-                <Image style={styles.foto} source={{uri:'http://192.168.111.206:3333/files/'+props.foto}}/>
+                <Image style={styles.foto} source={{uri:'http://192.168.1.14:3333/files/'+props.foto}}/>
                 <View style={styles.texto}>
                     <Text style={styles.nome}> 
                         {props.nome}

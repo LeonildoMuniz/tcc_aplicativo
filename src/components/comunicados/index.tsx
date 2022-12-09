@@ -80,7 +80,7 @@ export default function ListaMensagens({atualizar}: atualizarProps) {
                 <View style={styles.container} key={index}>
                     
                     <Autor nickname={item.colaborador.nome} mensagem={item.mensagem} data={dataAtualFormatada()}/>
-                    <Image source={{uri:'http://192.168.111.206/files/'+item.anexo}}  style={styles.image}/>
+                    <Image source={{uri:'http://192.168.1.14:3333/files/'+item.anexo}}  style={styles.image}/>
                 </View>
                )
             })}
